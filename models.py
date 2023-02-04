@@ -2,14 +2,12 @@ from app import db
 from datetime import datetime
 
 
-class User(db.Model):
+class Users(db.Model):
     """ Пользователи """
-    __tablename__='user'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), nullable=False)
     password = db.Column(db.String(150), nullable=False)
-    avatar = db.Column(db.LargeBinary, default=True)
     time = db.Column(db.DateTime, default=datetime.utcnow)
     
     def __repr__(self):
@@ -18,7 +16,6 @@ class User(db.Model):
 
 class Category(db.Model):
     """ Категории """
-    __tablename__='category'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
     slug = db.Column(db.String(150), unique=True, nullable=False)
@@ -31,7 +28,6 @@ class Category(db.Model):
 
 class Brand(db.Model):
     """ Бренд """
-    __tablename__='brand'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
     slug = db.Column(db.String(150), unique=True, nullable=False)
@@ -44,12 +40,11 @@ class Brand(db.Model):
 
 class Product(db.Model):
     """ Товар """
-    __tablename__='product'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(150), nullable=False)
     slug = db.Column(db.String(150), unique=True, nullable=False)
+    photo = db.Column(db.String(255), nullable=True, default='')
     price = db.Column(db.Numeric, nullable=False)
-    photo = db.Column(db.LargeBinary, default=True)
     old_price = db.Column(db.Numeric, nullable=True)
     size = db.Column(db.Integer, nullable=True)
     color = db.Column(db.String(150), nullable=True)
@@ -67,12 +62,11 @@ class Product(db.Model):
     
     
     def __repr__(self):
-        return self.title
+        return f"{self.title}"
 
 
 class RatingStar(db.Model):
     """ Звезды рейтинга """
-    __tablename__='ratingstar'
     id = db.Column(db.Integer, primary_key=True)
     value = db.Column(db.Integer, default=0)
 
@@ -83,7 +77,6 @@ class RatingStar(db.Model):
 
 class Rating(db.Model):
     """ Рейтинг """
-    __tablename__='rating'
     id = db.Column(db.Integer, primary_key=True)
     star = db.Column(db.String(150), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'),
@@ -96,7 +89,6 @@ class Rating(db.Model):
 
 class Reviews(db.Model):
     """ Отзывы """
-    __tablename__='reviews'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), nullable=False)
     name = db.Column(db.String(150), nullable=False)
