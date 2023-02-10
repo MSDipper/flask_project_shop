@@ -7,4 +7,4 @@ posts = Blueprint("posts", __name__, template_folder='templates', static_folder=
 @posts.route('/')
 def home():
     posts = Product.query.all()
-    return render_template('home.html', posts=posts)
+    return render_template('posts/store.html', posts=posts)
