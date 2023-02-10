@@ -1,10 +1,9 @@
-from flask import Flask, render_template, url_for, Markup
+from flask import Flask, url_for, Markup
 from config import Configuration
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin, form
 from flask_admin.contrib.sqla import ModelView
 import os
-import random
 from flask_admin.contrib import sqla
 
 app = Flask(__name__)

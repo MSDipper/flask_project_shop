@@ -1,9 +1,9 @@
-from app import app, db
+from app import app
 import view
-from shop.blueprint import shop
+from posts.posts import posts
 
 
-app.register_blueprint(shop, url_prefix='/blog')
+app.register_blueprint(posts, url_prefix='/posts')
 
 
 if __name__ == "__main__":
