@@ -46,8 +46,7 @@ class StorageAdminModel(sqla.ModelView):
                                             base_path=
                                             os.path.join(file_path, 'static/image/photo/'),
                                             # Относительный путь из каталога. Будет добавляться к имени загружаемого файла.
-                                            url_relative_path='image/photo/',
-                                            namegen=generation_photo,
+                                            
                                             # Список разрешенных расширений. Если не указано, то будут разрешены форматы gif, jpg, jpeg, png и tiff.
                                             allowed_extensions=['png', 'jpg', 'jpeg', 'svg', 'gif'],
                                         )}

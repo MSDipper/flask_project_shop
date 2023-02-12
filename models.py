@@ -1,14 +1,16 @@
-from app import db
+from app import db, app
 from datetime import datetime
+from flask_image_alchemy.fields import StdImageField
 
 
 class Users(db.Model):
     """ Пользователи """
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(150), nullable=False)
-    password = db.Column(db.String(150), nullable=False)
+    password = db.Column(db.String(100), nullable=False)
     time = db.Column(db.DateTime, default=datetime.utcnow)
+    users = db.relationship('Product', backref='users', lazy=True)
     
     def __repr__(self):
         return self.name
@@ -17,8 +19,8 @@ class Users(db.Model):
 class Category(db.Model):
     """ Категории """
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), nullable=False)
-    slug = db.Column(db.String(150), unique=True, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    slug = db.Column(db.String(100), unique=True, nullable=False)
     categories = db.relationship('Product', backref='category', lazy=True)
     
         
@@ -43,11 +45,13 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(150), nullable=False)
     slug = db.Column(db.String(150), unique=True, nullable=False)
-    photo = db.Column(db.String(255), nullable=True, default='')
+    photo = db.Column(db.String(150), unique=True, nullable=False)
     price = db.Column(db.Numeric, nullable=False)
     old_price = db.Column(db.Numeric, nullable=True)
+    sale = db.Column(db.Numeric, nullable=False)
     size = db.Column(db.Integer, nullable=True)
-    color = db.Column(db.String(150), nullable=True)
+    color = db.Column(db.String(100), nullable=True)
+    freshness = db.Column(db.String(100), nullable=True)
     stock = db.Column(db.Boolean, default=True)
     create_at = db.Column(db.DateTime, default=datetime.utcnow)
     description = db.Column(db.Text, nullable=True)
@@ -59,10 +63,13 @@ class Product(db.Model):
         nullable=False)
     brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'),
         nullable=False)
-    
+    users_id = db.Column(db.Integer, db.ForeignKey('users.id'),
+        nullable=False)
     
     def __repr__(self):
         return f"{self.title}"
+    
+    
 
 
 class RatingStar(db.Model):
@@ -78,7 +85,7 @@ class RatingStar(db.Model):
 class Rating(db.Model):
     """ Рейтинг """
     id = db.Column(db.Integer, primary_key=True)
-    star = db.Column(db.String(150), nullable=False)
+    star = db.Column(db.String(50), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'),
         nullable=False)
     
@@ -91,7 +98,7 @@ class Reviews(db.Model):
     """ Отзывы """
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), nullable=False)
-    name = db.Column(db.String(150), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
     message = db.Column(db.Text, nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'),
         nullable=False)
