@@ -50,6 +50,8 @@ class StorageAdminModel(sqla.ModelView):
                                             # Список разрешенных расширений. Если не указано, то будут разрешены форматы gif, jpg, jpeg, png и tiff.
                                             allowed_extensions=['png', 'jpg', 'jpeg', 'svg', 'gif'],
                                         )}
+    # Exclude fields
+    column_exclude_list = ('description', 'details')
     
 
 
